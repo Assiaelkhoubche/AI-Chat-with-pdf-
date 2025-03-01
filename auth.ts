@@ -96,9 +96,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     
     signIn: async ({ user, account})=> {
 
-      const password="assia123456";
+      const password=process.env.PASSWORD;
       const saltRounds= await bcrypt.genSalt(10);
-      const hashedPassword= await bcrypt.hash(password,saltRounds);
+      const hashedPassword= await bcrypt.hash(password!,saltRounds);
 
       if (account?.provider === "google") {
         try {
