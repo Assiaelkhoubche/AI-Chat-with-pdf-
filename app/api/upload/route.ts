@@ -5,9 +5,7 @@ import mongoose from "mongoose";
 import pdfParse from "pdf-parse";
 import { authenticatedUser } from "@/action/user";
 
-
 export async function POST(req: Request) {
-
   try {
     await authenticatedUser();
     await connectDB();
@@ -15,8 +13,8 @@ export async function POST(req: Request) {
     const formData = await req.formData();
     const file = formData.get("file") as File;
     const userId = formData.get("userId") as string;
-    const fileId=formData.get("fileId") as string;
-    const publicUrl=formData.get("publicUrl") as string;
+    const fileId = formData.get("fileId") as string;
+    const publicUrl = formData.get("publicUrl") as string;
 
     if (!file) {
       return NextResponse.json(
@@ -24,7 +22,7 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
- 
+
     const buffer = Buffer.from(await file.arrayBuffer());
 
     let pdfText = "";
@@ -38,13 +36,13 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
-    
+
     const doc = await Document.create({
       fileSize: file.size,
       userId: new mongoose.Types.ObjectId(userId),
       content: pdfText,
-      fileId:fileId,
-      publicUrl:publicUrl,
+      fileId: fileId,
+      publicUrl: publicUrl,
     });
 
     if (doc) {

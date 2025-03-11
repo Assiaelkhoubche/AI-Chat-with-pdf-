@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -22,59 +21,52 @@ function useUpload() {
   const [fileId, setFileId] = useState<string | null>(null);
   const [status, setStatus] = useState<Status | null>(null);
   const { user } = useUser();
-  const router = useRouter(); 
+  const router = useRouter();
 
-    const handleUpload = async (file: File) => {
-      if (!file || !user) return;
-     
-      let fileIdUploaded;
-    
-      try {
+  const handleUpload = async (file: File) => {
+    if (!file || !user) return;
 
-        setStatus(StatusText.UPLOADING);
-        const {fileIdGoogle, publicUrl}= await loadDocumentToGoogleDrive(file);
-        fileIdUploaded = fileIdGoogle;
+    let fileIdUploaded;
 
-       
-        setStatus(StatusText.SAVING);
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("userId", user.id);
-        formData.append("fileId", fileIdUploaded!);
-        formData.append("publicUrl", publicUrl);
-    
-        const response = await axios.post("/api/upload", formData, {
-          onUploadProgress: (progressEvent) => {
-            const percentCompleted = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total!
-            );
-            setProgress(percentCompleted);
-          },
-          
-        });
-        setStatus(StatusText.UPLOADED);
-    
-        console.log("Upload result:", response.data);
-    
-        if (!response.data.success) {          
-          console.log("Failed to upload File");
-        } 
-       
+    try {
+      setStatus(StatusText.UPLOADING);
+      const { fileIdGoogle, publicUrl } = await loadDocumentToGoogleDrive(file);
+      fileIdUploaded = fileIdGoogle;
 
-        setStatus(StatusText.GENERATING);
+      setStatus(StatusText.SAVING);
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("userId", user.id);
+      formData.append("fileId", fileIdUploaded!);
+      formData.append("publicUrl", publicUrl);
 
-        await generateEmbeddings(fileIdUploaded!);
+      const response = await axios.post("/api/upload", formData, {
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total!
+          );
+          setProgress(percentCompleted);
+        },
+      });
+      setStatus(StatusText.UPLOADED);
 
-        setFileId(fileIdUploaded!);
-  
+      console.log("Upload result:", response.data);
 
-      } catch (err) {
-        setStatus(null);
-        console.error("Upload error:", err);
+      if (!response.data.success) {
+        console.log("Failed to upload File");
       }
-    };
 
-    return {handleUpload, fileId, status, progress}
+      setStatus(StatusText.GENERATING);
 
-  }
+      await generateEmbeddings(fileIdUploaded!);
+
+      setFileId(fileIdUploaded!);
+    } catch (err) {
+      setStatus(null);
+      console.error("Upload error:", err);
+    }
+  };
+
+  return { handleUpload, fileId, status, progress };
+}
 export default useUpload;

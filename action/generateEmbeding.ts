@@ -1,19 +1,15 @@
-"use server"
+"use server";
 
 import { gerenerateEmbeddingsInPineConeVectorStore } from "@/lib/langchain";
-import { authenticatedUser } from "./user"
+import { authenticatedUser } from "./user";
 import { revalidatePath } from "next/cache";
 
+export const generateEmbeddings = async (docId: string) => {
+  await authenticatedUser();
 
-export const generateEmbeddings =  async(docId:string)=>{
-    await authenticatedUser();
+  await gerenerateEmbeddingsInPineConeVectorStore(docId);
 
-    await gerenerateEmbeddingsInPineConeVectorStore(docId);
+  revalidatePath("/dashboard");
 
-    revalidatePath("/dashboard");
-
-    return {completed:true}
-}
-
-
-
+  return { completed: true };
+};
