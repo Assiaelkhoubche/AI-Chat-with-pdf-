@@ -1,10 +1,10 @@
-export type UserFetched= {
+export type UserFetched = {
   id: string;
   name?: string;
   email?: string;
   image?: string;
   hasAciveMembership?: boolean;
-}
+};
 
 export interface UserContextType {
   user: UserFetched | null;
@@ -20,7 +20,13 @@ export type Messages = {
   userId?: string;
 };
 
-export type userDtails={
-  name:string,
-  email:string
-}
+export type userDtails = {
+  name: string;
+  email: string;
+};
+export type documentFetched = {
+  name?: string;
+  fileId?: string;
+  userId?: string;
+  createdAt?: Date;
+};

@@ -1,5 +1,6 @@
 "use client";
 import createCheckoutSession from "@/action/checkout";
+import createStripePortal from "@/action/createStripePortal";
 import { useUser } from "@/app/_context/UserContext";
 import { Button } from "@/components/ui/button";
 import useSubscription from "@/hooks/useSubscription";
@@ -13,34 +14,31 @@ const Upgrade = () => {
   const { user } = useUser();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-
   const { hasAciveMembership, isLoading } = useSubscription();
+  console.log("hasActiveMembershipe page: ", hasAciveMembership);
+  console.log("userDetals page: ", user);
+  const handleUpgrade = () => {
+    if (!user) return;
 
+    const userDetails: userDtails = {
+      name: user.name!,
+      email: user.email!,
+    };
+    startTransition(async () => {
+      const stripe = await getStripe();
 
- 
-  const handleUpgrade=()=>{
-    
-    if(!user) return;
-
-    const userDetails:userDtails={
-      name:user.name!,
-      email:user.email!,
-    }
-    startTransition(async()=>{
-      const stripe=await getStripe();
-      
-      if(hasAciveMembership){
-        // create stripe portal...
+      if (hasAciveMembership) {
+        const stripePortalUrl = await createStripePortal();
+        return router.push(stripePortalUrl);
       }
 
-      const sessionId= await createCheckoutSession(userDetails);
+      const sessionId = await createCheckoutSession(userDetails);
 
       await stripe?.redirectToCheckout({
         sessionId,
       });
-
     });
-  }
+  };
 
   //pull in user subscription
 

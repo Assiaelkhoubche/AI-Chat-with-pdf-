@@ -12,15 +12,12 @@ const createCheckoutSession = async (userDtails: userDtails) => {
   if (!user) {
     throw new Error("user not authenticated");
   }
-
   let stripeCustomerId;
-
   try {
     await connectDB();
     const userInfo = await User.findOne({ _id: user.id }).select(
       "stripeCustomerId"
     );
-
     stripeCustomerId = userInfo?.stripeCustomerId;
 
     if (!userInfo?.stripeCustomerId) {

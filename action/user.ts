@@ -83,7 +83,6 @@ export const logout = async () => {
 
 export const getUser = async () => {
   const session = await auth();
-
   if (!session) {
     throw new Error("Not authenticated");
   }

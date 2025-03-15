@@ -56,6 +56,7 @@ export async function POST(req: NextRequest) {
         { stripeCustomerId: customerId },
         { hasAciveMembership: true }
       );
+
       break;
     }
     case "customer.subscription.deleted":

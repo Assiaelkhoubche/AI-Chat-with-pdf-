@@ -1,23 +1,16 @@
-import Header from "@/components/ui/Header"
-import { UserProvider } from "../_context/UserContext"
-import { SessionProvider } from "next-auth/react"
+import Header from "@/components/ui/Header";
+import { UserProvider } from "../_context/UserContext";
+import { SessionProvider } from "next-auth/react";
 
-
-const DashboardLayout = ({children}:{
-    children:React.ReactNode
-}) => {
+const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <UserProvider>      
+    <UserProvider>
       <div className="flex flex-col flex-1">
-
-          <Header/>
-          <main className="flex-1 overflow-auto">
-            {children}
-          </main>
+        <Header />
+        <main className="flex-1 overflow-auto">{children}</main>
       </div>
     </UserProvider>
-  
-  )
-}
+  );
+};
 
-export default DashboardLayout
+export default DashboardLayout;

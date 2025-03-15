@@ -1,12 +1,12 @@
-import FileUploader from '@/components/ui/FileUploader'
-import React from 'react'
+import FileUploader from "@/components/ui/FileUploader";
+import React from "react";
 
 const Upload = () => {
   return (
     <div>
-        <FileUploader/>
+      <FileUploader />
     </div>
-  )
-}
+  );
+};
 
-export default Upload
+export default Upload;

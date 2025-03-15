@@ -14,9 +14,9 @@ const messageSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  fileId:{ type:String, required: true },
-  userId:{ type: mongoose.Schema.Types.ObjectId, ref: "User", required: true}
-
+  fileId: { type: String, required: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
 });
 
-export const Message = mongoose.models?.Message || mongoose.model("Message", messageSchema);
+export const Message =
+  mongoose.models?.Message || mongoose.model("Message", messageSchema);

@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "./dropdown-menu";
 import { logout } from "@/action/user";
-import { UserFetched } from "@/types/type";
+
 import { useUser } from "@/app/_context/UserContext";
 
 const Header = () => {
@@ -30,7 +30,7 @@ const Header = () => {
         </Button>
 
         <Button asChild variant="outline" className="border-indigo-600">
-          <Link href="/dashboard/upgrade">
+          <Link href="/dashboard/upload">
             <FilePlus2 className="text-indigo-600" />
           </Link>
         </Button>

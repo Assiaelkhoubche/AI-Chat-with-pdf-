@@ -43,6 +43,7 @@ export async function POST(req: Request) {
       content: pdfText,
       fileId: fileId,
       publicUrl: publicUrl,
+      name: file.name,
     });
 
     if (doc) {
